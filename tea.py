@@ -39,7 +39,7 @@ def tea(p,finalstate=True):
 		while cp < len(p):
 			if halt: return
 
-			if not (p[cp].isdigit() or p[cp] in ":%+-!*{}"):
+			if not (p[cp].isdigit() or p[cp] in ":%+-!*{}@"):
 				print(f"ERR: INVALID COMMAND `{"\\n" if p[cp] == "\n" else p[cp]}`")
 				halt = True
 				return
@@ -68,6 +68,7 @@ def tea(p,finalstate=True):
 				if lencheck(1,"-"): return
 				if stack1[-1] == 0:
 					print("ERR: CANNOT DECREMENT 0")
+					return
 					halt = True
 				stack1[-1]-= 1
 
@@ -81,11 +82,11 @@ def tea(p,finalstate=True):
 					print(f"ERR: EXPECTED `(` AFTER `*` COMMAND")
 					halt = True
 					return
+				cp+= 1
 				if p[cp] == ")":
 					print(f"ERR: CODE BLOCK CANNOT BE EMPTY")
 					halt = True
 					return
-				cp+= 1
 				built2 = ""
 				depth = 1
 				while depth > 0:
@@ -98,6 +99,31 @@ def tea(p,finalstate=True):
 				if lencheck(1,"*"): return
 				times = stack1.pop()
 				interpret(built2*times,d+1)
+				continue
+
+			if p[cp] == "@":
+				cp+= 1
+				if p[cp] != "(":
+					print(f"ERR: EXPECTED `(` AFTER `@` COMMAND")
+					halt = True
+					return
+				cp+= 1
+				if p[cp] == ")":
+					print(f"ERR: CODE BLOCK CANNOT BE EMPTY")
+					halt = True
+					return
+				built2 = ""
+				depth = 1
+				while depth > 0:
+					if p[cp] == "(": depth+= 1
+					if p[cp] == ")": depth-= 1
+					if depth > 0:
+						built2 += p[cp]
+					cp+= 1
+					if depth == 0: break
+				if lencheck(1,"@",t=True): return
+				while stack2[-1] > 0:
+					interpret(built2,d+1)
 				continue
 
 			if p[cp] == "{":
