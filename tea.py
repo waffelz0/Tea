@@ -68,8 +68,8 @@ def tea(p,finalstate=True):
 				if lencheck(1,"-"): return
 				if stack1[-1] == 0:
 					print("ERR: CANNOT DECREMENT 0")
-					return
 					halt = True
+					return
 				stack1[-1]-= 1
 
 			if p[cp] == "!":
