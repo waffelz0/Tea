@@ -79,12 +79,12 @@ def tea(p,finalstate=True):
 			if p[cp] == "*":
 				cp+= 1
 				if p[cp] != "(":
-					print(f"ERR: EXPECTED `(` AFTER `*` COMMAND")
+					print("ERR: EXPECTED `(` AFTER `*` COMMAND")
 					halt = True
 					return
 				cp+= 1
 				if p[cp] == ")":
-					print(f"ERR: CODE BLOCK CANNOT BE EMPTY")
+					print("ERR: CODE BLOCK CANNOT BE EMPTY")
 					halt = True
 					return
 				built2 = ""
@@ -104,12 +104,12 @@ def tea(p,finalstate=True):
 			if p[cp] == "@":
 				cp+= 1
 				if p[cp] != "(":
-					print(f"ERR: EXPECTED `(` AFTER `@` COMMAND")
+					print("ERR: EXPECTED `(` AFTER `@` COMMAND")
 					halt = True
 					return
 				cp+= 1
 				if p[cp] == ")":
-					print(f"ERR: CODE BLOCK CANNOT BE EMPTY")
+					print("ERR: CODE BLOCK CANNOT BE EMPTY")
 					halt = True
 					return
 				built2 = ""
@@ -124,6 +124,7 @@ def tea(p,finalstate=True):
 				if lencheck(1,"@",t=True): return
 				while stack2[-1] > 0:
 					interpret(built2,d+1)
+					if lencheck(1,"@",t=True): return
 				continue
 
 			if p[cp] == "{":
