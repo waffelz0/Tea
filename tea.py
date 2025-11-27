@@ -1,3 +1,5 @@
+import sys
+
 def tea(p,finalstate=True):
 	de = 0
 	for i in p:
@@ -40,7 +42,8 @@ def tea(p,finalstate=True):
 			if halt: return
 
 			if not (p[cp].isdigit() or p[cp] in ":%+-!*{}@"):
-				print(f"ERR: INVALID COMMAND `{"\\n" if p[cp] == "\n" else p[cp]}`")
+				ch = "\\n" if p[cp] == "\n" else p[cp]
+				print(f"ERR: INVALID COMMAND `{ch}`")
 				halt = True
 				return
 
@@ -125,6 +128,7 @@ def tea(p,finalstate=True):
 				while stack2[-1] > 0:
 					interpret(built2,d+1)
 					if lencheck(1,"@",t=True): return
+					if halt: return
 				continue
 
 			if p[cp] == "{":
@@ -140,6 +144,16 @@ def tea(p,finalstate=True):
 		if built != "" and built.isdigit():
 			stack1.append(int(built))
 
-		if d==0 and not halt and finalstate: print(f"FINAL STATE:\n{stack1} {stack2}")
+		if d==0 and not halt and finalstate: print(f"EXECUTION FINISHED.\nFINAL STATE: {stack1} {stack2}")
 
+	print("EXECUTION STARTED.")
 	interpret(p)
+
+if __name__ == "__main__":
+	if len(sys.argv) < 2:
+		print("Usage: python tea.py <file>")
+		sys.exit(1)
+	filename = sys.argv[1]
+	with open(filename, "r") as f:
+		program = f.read()
+		tea(program)
