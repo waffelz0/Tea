@@ -42,7 +42,7 @@ def tea(p,finalstate=True):
 			if halt: return
 
 			if not (p[cp].isdigit() or p[cp] in ":%+-!*{}@"):
-				ch = "\\n" if p[cp] == "\n" else p[cp]
+				ch = "\\n" if p[cp] == "\n" else "\\t" if p[cp] == "\t" else p[cp]
 				print(f"ERR: INVALID COMMAND `{ch}`")
 				halt = True
 				return
