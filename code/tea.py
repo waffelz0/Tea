@@ -47,6 +47,11 @@ def tea(p,finalstate=True):
 				halt = True
 				return
 
+			if p[cp] == "(":
+				print("ERR: UNEXPECTED `(`")
+				halt = True
+				return
+
 			if p[cp].isdigit():
 				built+= p[cp]
 			elif built != "" and built.isdigit():
