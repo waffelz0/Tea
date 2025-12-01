@@ -106,7 +106,8 @@ def tea(p,finalstate=True):
 					if depth == 0: break
 				if lencheck(1,"*"): return
 				times = stack1.pop()
-				interpret(built2*times,d+1)
+				for _ in range(times):
+				    interpret(built2,d+1)
 				continue
 
 			if p[cp] == "@":
