@@ -92,22 +92,22 @@ def tea(p,finalstate=True):
 					return
 				cp+= 1
 				if p[cp] == ")":
-					print("ERR: CODE BLOCK CANNOT BE EMPTY")
-					halt = True
-					return
-				built2 = ""
-				depth = 1
-				while depth > 0:
-					if p[cp] == "(": depth+= 1
-					if p[cp] == ")": depth-= 1
-					if depth > 0:
-						built2 += p[cp]
+					stack1.pop()
 					cp+= 1
-					if depth == 0: break
-				if lencheck(1,"*"): return
-				times = stack1.pop()
-				for _ in range(times):
-				    interpret(built2,d+1)
+				else:
+					built2 = ""
+					depth = 1
+					while depth > 0:
+						if p[cp] == "(": depth+= 1
+						if p[cp] == ")": depth-= 1
+						if depth > 0:
+							built2 += p[cp]
+						cp+= 1
+						if depth == 0: break
+					if lencheck(1,"*"): return
+					times = stack1.pop()
+					for _ in range(times):
+						interpret(built2,d+1)
 				continue
 
 			if p[cp] == "@":
@@ -118,23 +118,23 @@ def tea(p,finalstate=True):
 					return
 				cp+= 1
 				if p[cp] == ")":
-					print("ERR: CODE BLOCK CANNOT BE EMPTY")
-					halt = True
-					return
-				built2 = ""
-				depth = 1
-				while depth > 0:
-					if p[cp] == "(": depth+= 1
-					if p[cp] == ")": depth-= 1
-					if depth > 0:
-						built2 += p[cp]
-					cp+= 1
-					if depth == 0: break
-				if lencheck(1,"@",t=True): return
-				while stack2[-1] > 0:
-					interpret(built2,d+1)
+					while stack2[-1] > 0:
+						pass
+				else:
+					built2 = ""
+					depth = 1
+					while depth > 0:
+						if p[cp] == "(": depth+= 1
+						if p[cp] == ")": depth-= 1
+						if depth > 0:
+							built2 += p[cp]
+						cp+= 1
+						if depth == 0: break
 					if lencheck(1,"@",t=True): return
-					if halt: return
+					while stack2[-1] > 0:
+						interpret(built2,d+1)
+						if lencheck(1,"@",t=True): return
+						if halt: return
 				continue
 
 			if p[cp] == "{":
